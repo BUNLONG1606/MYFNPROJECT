@@ -1,0 +1,32 @@
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  color: #faedcd;
+}
+
+.hero p {
+  color: #a3a3a3;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: 2.5fr 1fr;
+  gap: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 850px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+}

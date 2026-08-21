@@ -1,4 +1,17 @@
 import { useState } from 'react';
+
+// Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+
+// Pages
+import LoginPage from './pages/LoginPage';
+import MenuPage from './pages/MenuPage';
+import CategoriesPage from './pages/CategoriesPage';
+import AboutPage from './pages/AboutPage';
+import AdminPage from './pages/AdminPage';
+
+// Global layout styles
 import './App.css';
 
 const INITIAL_ITEMS = [
@@ -13,19 +26,17 @@ const INITIAL_ITEMS = [
 ];
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('menu'); // 'login', 'menu', 'categories', 'about', 'admin'
+  const [currentPage, setCurrentPage] = useState('menu');
   const [menuItems, setMenuItems] = useState(INITIAL_ITEMS);
   const [cart, setCart] = useState([]);
   const [user, setUser] = useState(null);
-  
-  // Admin Data 
   const [customerOrders, setCustomerOrders] = useState([]);
 
-  // Login Form 
+  // Auth Form State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Add Item Form (Admin)
+  // Admin New Item Form State
   const [newItemName, setNewItemName] = useState('');
   const [newItemCategory, setNewItemCategory] = useState('Hot Drinks');
   const [newItemPrice, setNewItemPrice] = useState('');
@@ -60,6 +71,7 @@ export default function App() {
   const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
 
+  // Authentication Handlers
   const handleLogin = (e) => {
     e.preventDefault();
     if (!email || !password) return alert('Please enter both email and password.');
@@ -67,7 +79,6 @@ export default function App() {
     const cleanEmail = email.toLowerCase().trim();
     const isAdminAccount = cleanEmail === 'admin@coffee.com';
 
-    // Verify Admin Password
     if (isAdminAccount && password !== 'admin123') {
       alert('Incorrect password for admin account.');
       return;
@@ -90,7 +101,7 @@ export default function App() {
     setCurrentPage('login');
   };
 
-  // Checkout Function (Saves Order to Admin Page)
+  // Checkout Handler
   const handleCheckout = () => {
     if (!user) {
       alert('Please log in first to complete your order!');
@@ -112,7 +123,7 @@ export default function App() {
     setCart([]);
   };
 
-  // Admin: Add New Menu Item Function
+  // Admin Handler to Add Menu Item
   const handleAddMenuItem = (e) => {
     e.preventDefault();
     if (!newItemName || !newItemPrice) return alert('Please provide an item name and price.');
@@ -129,7 +140,6 @@ export default function App() {
     setMenuItems((prev) => [...prev, newItem]);
     alert(`"${newItemName}" added to the menu successfully!`);
 
-    
     setNewItemName('');
     setNewItemCategory('Hot Drinks');
     setNewItemPrice('');
@@ -139,346 +149,63 @@ export default function App() {
 
   return (
     <div className="coffee-app">
-      {/* Universal Navigation */}
-      <nav className="navbar">
-        <div className="logo" onClick={() => setCurrentPage('menu')}>☕ BUNLONG CAFE</div>
-        
-        <div className="nav-links">
-          <button className={currentPage === 'menu' ? 'active' : ''} onClick={() => setCurrentPage('menu')}>Menu</button>
-          <button className={currentPage === 'categories' ? 'active' : ''} onClick={() => setCurrentPage('categories')}>Hot & Cold</button>
-          <button className={currentPage === 'about' ? 'active' : ''} onClick={() => setCurrentPage('about')}>About Us</button>
-          {user?.isAdmin && (
-            <button className={`admin-nav-btn ${currentPage === 'admin' ? 'active' : ''}`} onClick={() => setCurrentPage('admin')}>
-              📊 Admin Dashboard
-            </button>
-          )}
-        </div>
+      <Navbar 
+        currentPage={currentPage} 
+        setCurrentPage={setCurrentPage} 
+        user={user} 
+        handleLogout={handleLogout} 
+      />
 
-        <div className="nav-actions">
-          {user ? (
-            <div className="user-profile">
-              <span>👋 {user.name} {user.isAdmin && <strong className="admin-badge">ADMIN</strong>}</span>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
-            </div>
-          ) : (
-            <button className={`auth-btn ${currentPage === 'login' ? 'active-auth' : ''}`} onClick={() => setCurrentPage('login')}>
-              Login
-            </button>
-          )}
-        </div>
-      </nav>
-
-      {/* Main Page Routing */}
       <main className="main-content">
-        
-        {/* LOGIN PAGE */}
         {currentPage === 'login' && (
-          <section className="page-container auth-page">
-            <div className="auth-card">
-              <h2>Welcome to Bunlong Cafe</h2>
-              <p className="auth-subtitle">Sign in to place orders or manage the store</p>
-              
-              <form onSubmit={handleLogin} className="auth-form">
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input 
-                    type="email" 
-                    placeholder="admin@coffee.com or user@gmail.com" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label>Password</label>
-                  <input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                  />
-                </div>
-
-                <button type="submit" className="submit-btn">Sign In</button>
-              </form>
-            </div>
-          </section>
+          <LoginPage 
+            email={email} 
+            setEmail={setEmail} 
+            password={password} 
+            setPassword={setPassword} 
+            handleLogin={handleLogin} 
+          />
         )}
 
-        {/* DRINK MENU PAGE */}
         {currentPage === 'menu' && (
-          <section className="page-container menu-page">
-            <header className="hero">
-              <h1>Fresh Daily Coffee</h1>
-              <p>Hand-picked beans, roasted locally and prepared with precision.</p>
-            </header>
-
-            <div className="layout-grid">
-              <div className="menu-list">
-                <h2>All Drinks & Items</h2>
-                <div className="menu-grid">
-                  {menuItems.map((item) => (
-                    <div key={item.id} className="coffee-card">
-                      <div className="card-top">
-                        <span className="card-icon">{item.image}</span>
-                        <span className="category-tag">{item.category}</span>
-                      </div>
-                      <h3>{item.name}</h3>
-                      <p className="desc">{item.desc}</p>
-                      <div className="card-bottom">
-                        <span className="price">${item.price.toFixed(2)}</span>
-                        <button className="add-btn" onClick={() => addToCart(item)}>+ Add</button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Sidebar Cart View */}
-              <aside className="cart-sidebar">
-                <h3>🛒 Current Order ({totalCartCount})</h3>
-                {cart.length === 0 ? (
-                  <p className="empty-cart">Your cart is empty.</p>
-                ) : (
-                  <>
-                    <div className="cart-items">
-                      {cart.map((item) => (
-                        <div key={item.id} className="cart-item">
-                          <div>
-                            <strong>{item.name}</strong>
-                            <div className="cart-item-price">${(item.price * item.quantity).toFixed(2)}</div>
-                          </div>
-                          <div className="quantity-controls">
-                            <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                            <span>{item.quantity}</span>
-                            <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="cart-summary">
-                      <div className="total-row">
-                        <span>Total:</span>
-                        <strong>${totalPrice}</strong>
-                      </div>
-                      <button className="checkout-btn" onClick={handleCheckout}>Checkout</button>
-                    </div>
-                  </>
-                )}
-              </aside>
-            </div>
-          </section>
+          <MenuPage 
+            menuItems={menuItems} 
+            addToCart={addToCart} 
+            cart={cart} 
+            updateQuantity={updateQuantity} 
+            totalCartCount={totalCartCount} 
+            totalPrice={totalPrice} 
+            handleCheckout={handleCheckout} 
+          />
         )}
 
-        {/*  CATEGORIES (HOT & COLD SPLIT) */}
         {currentPage === 'categories' && (
-          <section className="page-container categories-page">
-            <h2>Drink Categories</h2>
-            <p className="page-desc">You can choose a delicious drinks here.</p>
-
-            <div className="category-sections">
-              {/* Hot Drinks Section */}
-              <div className="category-block">
-                <div className="category-header hot-header">
-                  <h3>🔥 Hot Drinks</h3>
-                </div>
-                <div className="menu-grid">
-                  {menuItems.filter(i => i.category === 'Hot Drinks').map((item) => (
-                    <div key={item.id} className="coffee-card">
-                      <div className="card-top">
-                        <span className="card-icon">{item.image}</span>
-                      </div>
-                      <h3>{item.name}</h3>
-                      <p className="desc">{item.desc}</p>
-                      <div className="card-bottom">
-                        <span className="price">${item.price.toFixed(2)}</span>
-                        <button className="add-btn" onClick={() => addToCart(item)}>+ Add</button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Cold Drinks Section */}
-              <div className="category-block">
-                <div className="category-header cold-header">
-                  <h3>🧊 Cold Drinks</h3>
-                </div>
-                <div className="menu-grid">
-                  {menuItems.filter(i => i.category === 'Cold Drinks').map((item) => (
-                    <div key={item.id} className="coffee-card">
-                      <div className="card-top">
-                        <span className="card-icon">{item.image}</span>
-                      </div>
-                      <h3>{item.name}</h3>
-                      <p className="desc">{item.desc}</p>
-                      <div className="card-bottom">
-                        <span className="price">${item.price.toFixed(2)}</span>
-                        <button className="add-btn" onClick={() => addToCart(item)}>+ Add</button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
+          <CategoriesPage menuItems={menuItems} addToCart={addToCart} />
         )}
 
-        {/*  ABOUT PAGE */}
-        {currentPage === 'about' && (
-          <section className="page-container about-page">
-            <div className="about-content">
-              <h2>About Bunlong Cafe</h2>
-              <p className="lead-text">
-                Founded with a passion for exceptional coffee, Bunlong Cafe brings artisan roasting standards and warm community hospitality together under one roof.
-              </p>
+        {currentPage === 'about' && <AboutPage />}
 
-              <div className="about-grid">
-                <div className="about-card">
-                  <h4>☕ Quality Sourcing</h4>
-                  <p>We partner directly with ethical coffee farms across South America and Southeast Asia to source 100% Arabica beans.</p>
-                </div>
-                <div className="about-card">
-                  <h4>🔥 In-House Roasting</h4>
-                  <p>Our beans are small-batch roasted weekly to preserve delicate aromatic profiles and peak flavor intensity.</p>
-                </div>
-                <div className="about-card">
-                  <h4>🌱 Sustainability</h4>
-                  <p>All takeaway cups, lids, and straws are 100% biodegradable and compostable.</p>
-                </div>
-              </div>
-
-              <div className="store-info">
-                <h3>Visit Us</h3>
-                <p>📍 Phnom Penh, Cambodia</p>
-                <p>⏰ Open Daily: 7:00 AM – 8:00 PM</p>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* PAGE 5: ADMIN PAGE */}
         {currentPage === 'admin' && (
-          <section className="page-container admin-page">
-            {!user?.isAdmin ? (
-              <div className="access-denied">
-                <h2>🔒 Access Denied</h2>
-                <p>Please log in with an administrator account (<code>admin@coffee.com</code>) to view this page.</p>
-                <button className="submit-btn" onClick={() => setCurrentPage('login')}>Go to Login</button>
-              </div>
-            ) : (
-              <div className="admin-grid">
-                {/* Section 1: Add New Menu Item */}
-                <div className="admin-card">
-                  <h2>➕ Add New Menu Item</h2>
-                  <form onSubmit={handleAddMenuItem} className="admin-form">
-                    <div className="form-group">
-                      <label>Item Name</label>
-                      <input 
-                        type="text" 
-                        placeholder="e.g. Vanilla Latte" 
-                        value={newItemName} 
-                        onChange={(e) => setNewItemName(e.target.value)} 
-                        required 
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Category</label>
-                      <select 
-                        value={newItemCategory} 
-                        onChange={(e) => setNewItemCategory(e.target.value)} 
-                        className="select-input"
-                      >
-                        <option value="Hot Drinks">Hot Drinks</option>
-                        <option value="Cold Drinks">Cold Drinks</option>
-                        <option value="Bakery">Bakery</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label>Price ($)</label>
-                      <input 
-                        type="number" 
-                        step="0.01" 
-                        placeholder="4.50" 
-                        value={newItemPrice} 
-                        onChange={(e) => setNewItemPrice(e.target.value)} 
-                        required 
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Emoji Icon</label>
-                      <input 
-                        type="text" 
-                        placeholder="☕ or 🧊" 
-                        value={newItemImage} 
-                        onChange={(e) => setNewItemImage(e.target.value)} 
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label>Description</label>
-                      <textarea 
-                        placeholder="Short item description..." 
-                        value={newItemDesc} 
-                        onChange={(e) => setNewItemDesc(e.target.value)} 
-                        className="textarea-input"
-                      />
-                    </div>
-
-                    <button type="submit" className="submit-btn">Add to Menu</button>
-                  </form>
-                </div>
-
-                {/* Section 2: Customer Orders List */}
-                <div className="admin-card">
-                  <h2>📋 Customer Orders ({customerOrders.length})</h2>
-                  {customerOrders.length === 0 ? (
-                    <p className="empty-orders">No customer orders received yet.</p>
-                  ) : (
-                    <div className="orders-container">
-                      {customerOrders.map((order) => (
-                        <div key={order.id} className="order-box">
-                          <div className="order-header">
-                            <div>
-                              <strong>👤 {order.buyerName}</strong> ({order.buyerEmail})
-                            </div>
-                            <span className="order-date">{order.date}</span>
-                          </div>
-                          
-                          <div className="order-item-list">
-                            {order.items.map((i) => (
-                              <div key={i.id} className="order-item-row">
-                                <span>{i.image} {i.name} (x{i.quantity})</span>
-                                <span>${(i.price * i.quantity).toFixed(2)}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="order-total-row">
-                            <span>Total Paid:</span>
-                            <strong>${order.total}</strong>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </section>
+          <AdminPage 
+            user={user} 
+            setCurrentPage={setCurrentPage} 
+            handleAddMenuItem={handleAddMenuItem} 
+            newItemName={newItemName} 
+            setNewItemName={setNewItemName} 
+            newItemCategory={newItemCategory} 
+            setNewItemCategory={setNewItemCategory} 
+            newItemPrice={newItemPrice} 
+            setNewItemPrice={setNewItemPrice} 
+            newItemImage={newItemImage} 
+            setNewItemImage={setNewItemImage} 
+            newItemDesc={newItemDesc} 
+            setNewItemDesc={setNewItemDesc} 
+            customerOrders={customerOrders} 
+          />
         )}
-
       </main>
 
-      {/* Footer */}
-      <footer className="footer">
-        <p>© {new Date().getFullYear()} Bunlong Cafe. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

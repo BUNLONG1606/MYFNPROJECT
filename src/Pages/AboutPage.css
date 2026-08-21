@@ -1,0 +1,59 @@
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-content h2 {
+  color: #d4a373;
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+
+.lead-text {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.about-card {
+  background-color: #1e1915;
+  border: 1px solid #3d3027;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.about-card h4 {
+  color: #d4a373;
+  margin-bottom: 0.5rem;
+}
+
+.about-card p {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.store-info {
+  background-color: #1e1915;
+  border: 1px solid #3d3027;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.store-info h3 {
+  color: #faedcd;
+  margin-bottom: 0.5rem;
+}
+
+.store-info p {
+  color: #ccc;
+  font-size: 0.95rem;
+}

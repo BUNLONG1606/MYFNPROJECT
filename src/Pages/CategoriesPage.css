@@ -1,0 +1,20 @@
+.page-desc {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.category-block {
+  margin-top: 2rem;
+}
+
+.category-header {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background-color: #1e1915;
+  border: 1px solid #3d3027;
+}
+
+.category-header h3 {
+  color: #faedcd;
+}
