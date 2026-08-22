@@ -1,64 +1,120 @@
 .coffee-card {
-  background-color: #1e1915;
-  border: 1px solid #3d3027;
-  border-radius: 10px;
-  padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+
+  height: 100%;
+
+  padding: 1.2rem;
+
+  background-color: #1e1915;
+
+  border: 1px solid #3d3027;
+  border-radius: 10px;
+
+  overflow: hidden;
+  box-sizing: border-box;
+
+  transition: transform 0.2s ease,
+              border-color 0.2s ease;
 }
 
-.card-top {
+.coffee-card:hover {
+  transform: translateY(-3px);
+  border-color: #6b4f3b;
+}
+
+.card-img {
+  width: 100%;
+  height: 160px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  margin-bottom: 0.8rem;
+}
+
+.emoji-image {
+  height: 160px;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
-}
+  justify-content: center;
 
-.card-icon {
-  font-size: 1.8rem;
+  margin-bottom: 0.8rem;
+
+  border-radius: 8px;
+
+  background-color: #2d231d;
+
+  font-size: 4rem;
 }
 
 .category-tag {
-  font-size: 0.75rem;
+  width: fit-content;
+
+  padding: 3px 8px;
+
+  margin-bottom: 0.5rem;
+
   background-color: #2d231d;
   color: #d4a373;
-  padding: 2px 8px;
+
   border-radius: 12px;
+
+  font-size: 0.75rem;
 }
 
 .coffee-card h3 {
-  font-size: 1.1rem;
+  margin: 0 0 0.4rem;
+
   color: #fff;
-  margin-bottom: 0.3rem;
+
+  font-size: 1.1rem;
 }
 
 .coffee-card .desc {
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-bottom: 1rem;
   flex: 1;
+
+  margin: 0 0 1rem;
+
+  color: #aaa;
+
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
 .card-bottom {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
+  margin-top: auto;
 }
 
 .price {
-  font-weight: 700;
   color: #faedcd;
+
+  font-weight: 700;
 }
 
 .add-btn {
   background-color: #2e7d32;
+
   color: white;
+
   border: none;
-  padding: 6px 12px;
+
+  padding: 7px 12px;
+
   border-radius: 6px;
+
   cursor: pointer;
+
   font-weight: 600;
+
+  transition: background-color 0.2s ease;
 }
 
 .add-btn:hover {

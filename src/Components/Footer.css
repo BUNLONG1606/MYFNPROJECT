@@ -1,8 +1,15 @@
 .footer {
   text-align: center;
+
   padding: 1.5rem;
+
   background-color: #1a1613;
+
   border-top: 1px solid #2d231d;
+
   color: #777;
+
   font-size: 0.85rem;
+
+  margin-top: auto;
 }

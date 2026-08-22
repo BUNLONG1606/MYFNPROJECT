@@ -1,73 +1,160 @@
 .cart-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+
   background-color: #1e1915;
+
   border: 1px solid #3d3027;
-  border-radius: 10px;
+  border-radius: 12px;
+
   padding: 1.2rem;
+
   height: fit-content;
+
+  box-sizing: border-box;
+}
+
+.cart-sidebar h3 {
+  margin: 0;
+
+  color: #faedcd;
+
+  font-size: 1.1rem;
 }
 
 .cart-items {
-  margin: 1rem 0;
   display: flex;
   flex-direction: column;
+
   gap: 0.8rem;
+
+  margin: 1rem 0;
 }
 
 .cart-item {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
+
+  gap: 0.8rem;
+
+  padding-bottom: 0.7rem;
+
   border-bottom: 1px dashed #2d231d;
-  padding-bottom: 0.5rem;
+}
+
+.cart-item-info {
+  min-width: 0;
+}
+
+.cart-item-info strong {
+  display: block;
+
+  color: #fff;
+
+  font-size: 0.9rem;
 }
 
 .cart-item-price {
-  font-size: 0.8rem;
+  margin-top: 3px;
+
   color: #888;
+
+  font-size: 0.8rem;
 }
 
 .quantity-controls {
   display: flex;
   align-items: center;
+
   gap: 0.5rem;
 }
 
 .quantity-controls button {
+  width: 25px;
+  height: 25px;
+
+  padding: 0;
+
   background-color: #2d231d;
+
   border: none;
-  color: #fff;
-  width: 24px;
-  height: 24px;
   border-radius: 4px;
+
+  color: white;
+
   cursor: pointer;
+}
+
+.quantity-controls button:hover {
+  background-color: #3d3027;
+}
+
+.quantity-controls span {
+  min-width: 18px;
+
+  text-align: center;
+
+  color: #fff;
 }
 
 .cart-summary {
   margin-top: 1rem;
-  border-top: 1px solid #3d3027;
+
   padding-top: 1rem;
+
+  border-top: 1px solid #3d3027;
 }
 
 .total-row {
   display: flex;
+
   justify-content: space-between;
-  font-size: 1.1rem;
+
   margin-bottom: 1rem;
+
+  color: #ddd;
+
+  font-size: 1.1rem;
+}
+
+.total-row strong {
+  color: #faedcd;
 }
 
 .checkout-btn {
   width: 100%;
-  background-color: #d4a373;
-  color: #121212;
-  border: none;
+
   padding: 10px;
+
+  background-color: #d4a373;
+
+  color: #121212;
+
+  border: none;
+
   border-radius: 6px;
+
   font-weight: 700;
+
   cursor: pointer;
 }
 
+.checkout-btn:hover {
+  background-color: #e2b783;
+}
+
 .empty-cart {
-  color: #888;
-  font-size: 0.9rem;
   margin-top: 0.8rem;
+
+  color: #888;
+
+  font-size: 0.9rem;
+}
+
+@media (max-width: 850px) {
+  .cart-sidebar {
+    width: 100%;
+  }
 }

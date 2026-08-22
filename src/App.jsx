@@ -11,18 +11,93 @@ import CategoriesPage from './pages/CategoriesPage';
 import AboutPage from './pages/AboutPage';
 import AdminPage from './pages/AdminPage';
 
-// Global layout styles
+// Images
+import caramelLateImg from './images/CaramelLate.png';
+import expressoImg from './images/Expresso.png';
+import hotChocolateImg from './images/HotChocolate.png';
+import iceAmericanoImg from './images/IceAmericano.png';
+import iceCapuccinoImg from './images/IceCapuccino.png';
+import iceLateImg from './images/IceLate.png';
+import iceMatchaLateImg from './images/IceMatchaLate.png';
+import iceMochaImg from './images/IceMocha.png';
+import iceVanilaImg from './images/IceVanila.png';
+
+// Global styles
 import './App.css';
 
 const INITIAL_ITEMS = [
-  { id: 1, name: 'Espresso', category: 'Hot Drinks', price: 1.00, desc: 'Rich and bold single shot of roasted espresso', image: '☕' },
-  { id: 2, name: 'Cappuccino', category: 'Hot Drinks', price: 1.50, desc: 'Equal parts espresso, steamed milk, and rich foam', image: '🥛' },
-  { id: 3, name: 'Caramel Macchiato', category: 'Hot Drinks', price: 1.50, desc: 'Fresh espresso with vanilla syrup and caramel drizzle', image: '🍯' },
-  { id: 4, name: 'Ice Vanila', category: 'Cold Drinks', price: 1.50, desc: 'Coffee mix with vanila', image: '🥛' },
-  { id: 5, name: 'Iced Matcha Latte', category: 'Cold Drinks', price: 1.50, desc: 'Japanese green tea with chilled milk over ice', image: '🍵' },
-  { id: 6, name: 'Iced Americano', category: 'Cold Drinks', price: 1.25, desc: 'Espresso shots topped with cold water and ice', image: '🥤' },
-  { id: 7, name: 'Ice Mocha', category: 'Cold Drinks', price: 1.50, desc: 'Coffee mix with chocolate', image: '🥛' },
-  { id: 8, name: 'Hot Chocolate', category: 'Hot Drinks', price: 1.25, desc: 'Velvety steamed milk with rich dark chocolate fudge', image: '☕' }
+  {
+    id: 1,
+    name: 'Espresso',
+    category: 'Hot Drinks',
+    price: 1.00,
+    desc: 'Rich and strong espresso made from freshly roasted coffee beans.',
+    image: expressoImg
+  },
+  {
+    id: 2,
+    name: 'Iced Cappuccino',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Smooth espresso with cold milk and creamy foam.',
+    image: iceCapuccinoImg
+  },
+  {
+    id: 3,
+    name: 'Caramel Latte',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Creamy latte with a sweet caramel flavor.',
+    image: caramelLateImg
+  },
+  {
+    id: 4,
+    name: 'Iced Vanilla',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Refreshing iced coffee with a smooth vanilla flavor.',
+    image: iceVanilaImg
+  },
+  {
+    id: 5,
+    name: 'Iced Matcha Latte',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Refreshing matcha blended with creamy milk.',
+    image: iceMatchaLateImg
+  },
+  {
+    id: 6,
+    name: 'Iced Americano',
+    category: 'Cold Drinks',
+    price: 1.25,
+    desc: 'Bold espresso served over ice and cold water.',
+    image: iceAmericanoImg
+  },
+  {
+    id: 7,
+    name: 'Iced Mocha',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Chocolate, espresso and milk served chilled.',
+    image: iceMochaImg
+  },
+  {
+    id: 8,
+    name: 'Hot Chocolate',
+    category: 'Hot Drinks',
+    price: 1.25,
+    desc: 'Warm and creamy chocolate drink.',
+    image: hotChocolateImg
+  },
+  {
+    id: 9,
+    name: 'Iced Latte',
+    category: 'Cold Drinks',
+    price: 1.50,
+    desc: 'Smooth espresso with cold milk served over ice.',
+    image: iceLateImg
+  }
 ];
 
 export default function App() {
@@ -32,25 +107,40 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [customerOrders, setCustomerOrders] = useState([]);
 
-  // Auth Form State
+  // Login form
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // Admin New Item Form State
+  // Admin form
   const [newItemName, setNewItemName] = useState('');
   const [newItemCategory, setNewItemCategory] = useState('Hot Drinks');
   const [newItemPrice, setNewItemPrice] = useState('');
   const [newItemDesc, setNewItemDesc] = useState('');
   const [newItemImage, setNewItemImage] = useState('☕');
 
-  // Cart Functions
+  // =========================
+  // CART
+  // =========================
+
   const addToCart = (item) => {
     setCart((prevCart) => {
       const existing = prevCart.find((i) => i.id === item.id);
+
       if (existing) {
-        return prevCart.map((i) => (i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i));
+        return prevCart.map((i) =>
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + 1 }
+            : i
+        );
       }
-      return [...prevCart, { ...item, quantity: 1 }];
+
+      return [
+        ...prevCart,
+        {
+          ...item,
+          quantity: 1
+        }
+      ];
     });
   };
 
@@ -59,25 +149,47 @@ export default function App() {
       prevCart
         .map((item) => {
           if (item.id === id) {
-            const newQty = item.quantity + delta;
-            return newQty > 0 ? { ...item, quantity: newQty } : null;
+            const newQuantity = item.quantity + delta;
+
+            return newQuantity > 0
+              ? { ...item, quantity: newQuantity }
+              : null;
           }
+
           return item;
         })
         .filter(Boolean)
     );
   };
 
-  const totalCartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+  const totalCartCount = cart.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
 
-  // Authentication Handlers
+  const totalPrice = cart
+    .reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    )
+    .toFixed(2);
+
+  // =========================
+  // LOGIN
+  // =========================
+
   const handleLogin = (e) => {
     e.preventDefault();
-    if (!email || !password) return alert('Please enter both email and password.');
-    
+
+    if (!email || !password) {
+      alert('Please enter both email and password.');
+      return;
+    }
+
     const cleanEmail = email.toLowerCase().trim();
-    const isAdminAccount = cleanEmail === 'admin@coffee.com';
+
+    const isAdminAccount =
+      cleanEmail === 'admin@coffee.com';
 
     if (isAdminAccount && password !== 'admin123') {
       alert('Incorrect password for admin account.');
@@ -85,7 +197,14 @@ export default function App() {
     }
 
     const username = cleanEmail.split('@')[0];
-    setUser({ name: username, email: cleanEmail, isAdmin: isAdminAccount });
+
+    const loggedInUser = {
+      name: username,
+      email: cleanEmail,
+      isAdmin: isAdminAccount
+    };
+
+    setUser(loggedInUser);
 
     if (isAdminAccount) {
       setCurrentPage('admin');
@@ -94,18 +213,31 @@ export default function App() {
     }
   };
 
+  // =========================
+  // LOGOUT
+  // =========================
+
   const handleLogout = () => {
     setUser(null);
     setEmail('');
     setPassword('');
+    setCart([]);
     setCurrentPage('login');
   };
 
-  // Checkout Handler
+  // =========================
+  // CHECKOUT
+  // =========================
+
   const handleCheckout = () => {
     if (!user) {
-      alert('Please log in first to complete your order!');
+      alert('Please log in first to complete your order.');
       setCurrentPage('login');
+      return;
+    }
+
+    if (cart.length === 0) {
+      alert('Your cart is empty.');
       return;
     }
 
@@ -115,30 +247,57 @@ export default function App() {
       buyerEmail: user.email,
       items: cart,
       total: totalPrice,
-      date: new Date().toLocaleString(),
+      date: new Date().toLocaleString()
     };
 
-    setCustomerOrders((prev) => [newOrder, ...prev]);
-    alert(`Thank you for your order, ${user.name}! Total: $${totalPrice}`);
+    setCustomerOrders((prevOrders) => [
+      newOrder,
+      ...prevOrders
+    ]);
+
+    alert(
+      `Thank you for your order, ${user.name}! Total: $${totalPrice}`
+    );
+
     setCart([]);
   };
 
-  // Admin Handler to Add Menu Item
+  // =========================
+  // ADMIN ADD ITEM
+  // =========================
+
   const handleAddMenuItem = (e) => {
     e.preventDefault();
-    if (!newItemName || !newItemPrice) return alert('Please provide an item name and price.');
+
+    if (!newItemName.trim() || !newItemPrice) {
+      alert('Please provide an item name and price.');
+      return;
+    }
+
+    const price = parseFloat(newItemPrice);
+
+    if (Number.isNaN(price) || price <= 0) {
+      alert('Please enter a valid price.');
+      return;
+    }
 
     const newItem = {
       id: Date.now(),
-      name: newItemName,
+      name: newItemName.trim(),
       category: newItemCategory,
-      price: parseFloat(newItemPrice),
-      desc: newItemDesc,
-      image: newItemImage || '☕',
+      price,
+      desc: newItemDesc.trim() || 'Freshly prepared at Bunlong Cafe.',
+      image: newItemImage.trim() || '☕'
     };
 
-    setMenuItems((prev) => [...prev, newItem]);
-    alert(`"${newItemName}" added to the menu successfully!`);
+    setMenuItems((prevItems) => [
+      ...prevItems,
+      newItem
+    ]);
+
+    alert(
+      `"${newItem.name}" added to the menu successfully!`
+    );
 
     setNewItemName('');
     setNewItemCategory('Hot Drinks');
@@ -149,63 +308,72 @@ export default function App() {
 
   return (
     <div className="coffee-app">
-      <Navbar 
-        currentPage={currentPage} 
-        setCurrentPage={setCurrentPage} 
-        user={user} 
-        handleLogout={handleLogout} 
+
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        user={user}
+        handleLogout={handleLogout}
       />
 
       <main className="main-content">
+
         {currentPage === 'login' && (
-          <LoginPage 
-            email={email} 
-            setEmail={setEmail} 
-            password={password} 
-            setPassword={setPassword} 
-            handleLogin={handleLogin} 
+          <LoginPage
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
           />
         )}
 
         {currentPage === 'menu' && (
-          <MenuPage 
-            menuItems={menuItems} 
-            addToCart={addToCart} 
-            cart={cart} 
-            updateQuantity={updateQuantity} 
-            totalCartCount={totalCartCount} 
-            totalPrice={totalPrice} 
-            handleCheckout={handleCheckout} 
+          <MenuPage
+            menuItems={menuItems}
+            addToCart={addToCart}
+            cart={cart}
+            updateQuantity={updateQuantity}
+            totalCartCount={totalCartCount}
+            totalPrice={totalPrice}
+            handleCheckout={handleCheckout}
           />
         )}
 
         {currentPage === 'categories' && (
-          <CategoriesPage menuItems={menuItems} addToCart={addToCart} />
-        )}
-
-        {currentPage === 'about' && <AboutPage />}
-
-        {currentPage === 'admin' && (
-          <AdminPage 
-            user={user} 
-            setCurrentPage={setCurrentPage} 
-            handleAddMenuItem={handleAddMenuItem} 
-            newItemName={newItemName} 
-            setNewItemName={setNewItemName} 
-            newItemCategory={newItemCategory} 
-            setNewItemCategory={setNewItemCategory} 
-            newItemPrice={newItemPrice} 
-            setNewItemPrice={setNewItemPrice} 
-            newItemImage={newItemImage} 
-            setNewItemImage={setNewItemImage} 
-            newItemDesc={newItemDesc} 
-            setNewItemDesc={setNewItemDesc} 
-            customerOrders={customerOrders} 
+          <CategoriesPage
+            menuItems={menuItems}
+            addToCart={addToCart}
           />
         )}
+
+        {currentPage === 'about' && (
+          <AboutPage />
+        )}
+
+        {currentPage === 'admin' && (
+          <AdminPage
+            user={user}
+            setCurrentPage={setCurrentPage}
+            handleAddMenuItem={handleAddMenuItem}
+            newItemName={newItemName}
+            setNewItemName={setNewItemName}
+            newItemCategory={newItemCategory}
+            setNewItemCategory={setNewItemCategory}
+            newItemPrice={newItemPrice}
+            setNewItemPrice={setNewItemPrice}
+            newItemImage={newItemImage}
+            setNewItemImage={setNewItemImage}
+            newItemDesc={newItemDesc}
+            setNewItemDesc={setNewItemDesc}
+            customerOrders={customerOrders}
+          />
+        )}
+
       </main>
 
       <Footer />
+
     </div>
   );
 }

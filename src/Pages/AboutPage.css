@@ -1,59 +1,113 @@
-.about-content {
-  max-width: 800px;
+.about-page {
+  width: 100%;
+
+  max-width: 1200px;
+
   margin: 0 auto;
+
+  padding: 1.5rem;
+
+  box-sizing: border-box;
 }
 
-.about-content h2 {
-  color: #d4a373;
-  margin-bottom: 0.8rem;
-  text-align: center;
+.about-content {
+  padding: 2.5rem;
+
+  background-color: #1e1915;
+
+  border: 1px solid #3d3027;
+
+  border-radius: 12px;
+
+  box-sizing: border-box;
+}
+
+.about-content > h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+
+  color: #faedcd;
+
+  font-size: 2rem;
 }
 
 .lead-text {
-  font-size: 1.1rem;
-  color: #ccc;
-  margin-bottom: 2.5rem;
-  text-align: center;
+  max-width: 800px;
+
+  margin-bottom: 2rem;
+
+  color: #d4a373;
+
+  line-height: 1.7;
+
+  font-size: 1.05rem;
 }
 
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
   gap: 1.5rem;
-  margin-bottom: 2.5rem;
 }
 
-.about-card {
-  background-color: #1e1915;
-  border: 1px solid #3d3027;
+.about-feature {
   padding: 1.5rem;
+
+  background-color: #120e0c;
+
+  border: 1px solid #2d231c;
+
   border-radius: 8px;
 }
 
-.about-card h4 {
-  color: #d4a373;
-  margin-bottom: 0.5rem;
+.about-feature h3 {
+  margin-top: 0;
+
+  margin-bottom: 0.7rem;
+
+  color: #faedcd;
+
+  font-size: 1.15rem;
 }
 
-.about-card p {
-  color: #aaa;
-  font-size: 0.9rem;
+.about-feature p {
+  margin: 0;
+
+  color: #a09083;
+
+  font-size: 0.95rem;
+
+  line-height: 1.6;
 }
 
 .store-info {
-  background-color: #1e1915;
-  border: 1px solid #3d3027;
-  padding: 1.5rem;
-  border-radius: 8px;
-  text-align: center;
+  margin-top: 2rem;
+
+  padding-top: 1.5rem;
+
+  border-top: 1px solid #3d3027;
 }
 
 .store-info h3 {
-  color: #faedcd;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+
+  color: #d4a373;
 }
 
 .store-info p {
-  color: #ccc;
-  font-size: 0.95rem;
+  margin: 0.4rem 0;
+
+  color: #aaa;
+}
+
+@media (max-width: 600px) {
+  .about-content {
+    padding: 1.5rem;
+  }
+
+  .about-content > h2 {
+    font-size: 1.6rem;
+  }
 }
